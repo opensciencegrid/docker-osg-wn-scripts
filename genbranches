@@ -1,0 +1,102 @@
+#!/usr/bin/python
+from __future__ import print_function
+import os
+
+DEFAULT_SERIES = '3.3'
+DEFAULT_DVER = 'el7'
+
+
+
+
+
+DVERS = { 'el6': { 'descr':                'EL 6'
+                 , 'from_container':       'centos:centos6'
+                 }
+        , 'el7': { 'descr':                'EL 7'
+                 , 'from_container':       'centos:centos7'
+                 }
+        }
+
+
+SERIESES = ['3.3']
+
+
+REPOS = { 'devel':   { 'descr':  ' + development repos'
+                     , 'arg':    '--enablerepo=osg-development'
+                     , 'suffix': '-devel'
+                     }
+        , 'testing': { 'descr':  ' + testing repos'
+                     , 'arg':    '--enablerepo=osg-testing'
+                     , 'suffix': '-testing'
+                     }
+        , 'prod':    { 'descr':  ''
+                     , 'arg':    ''
+                     , 'suffix': ''
+                     }
+        }
+
+assert DEFAULT_DVER in DVERS
+assert DEFAULT_SERIES in SERIESES
+
+DOCKERFILE_IN_TEMPLATE = r"""
+FROM %(from_container)s
+
+LABEL name="OSG %(series)s Worker Node Client on %(dver_descr)s%(repo_descr)s"
+LABEL build-date="@BUILDDATE@"
+
+RUN yum -y install https://repo.grid.iu.edu/osg/%(series)s/osg-%(series)s-%(dver)s-release-latest.rpm && \
+    yum -y install epel-release \
+                   yum-plugin-priorities && \
+    yum -y install %(repo_arg)s \
+                   osg-wn-client \
+                   osg-wn-client-glexec \
+                   redhat-lsb-core
+
+# Install Singularity
+RUN yum -y install --enablerepo=osg-upcoming-development singularity && \
+    yum clean all
+"""
+
+branches = {}
+
+def do_dver(dver, dver_suffix=None, use_default_series=False):
+    global branches
+
+    if dver_suffix is None:
+        dver_suffix = '-' + dver
+
+    from_container = DVERS[dver]['from_container']
+    dver_descr = DVERS[dver]['descr']
+
+    for repo_key, repo in REPOS.items():
+        repo_descr = repo['descr']
+        repo_arg = repo['arg']
+        repo_suffix = repo['suffix']
+
+        if not use_default_series:
+            for series in SERIESES:
+                name = series + repo_suffix + dver_suffix
+                content = DOCKERFILE_IN_TEMPLATE % locals()
+
+                branches[name] = content
+        else:
+            series = DEFAULT_SERIES
+            if repo_key == 'prod':
+                name = 'latest'
+            else:
+                name = repo_key
+            content = DOCKERFILE_IN_TEMPLATE % locals()
+
+            branches[name] = content
+
+
+for dver in DVERS:
+    do_dver(dver)
+
+do_dver(DEFAULT_DVER, dver_suffix='')
+do_dver(DEFAULT_DVER, dver_suffix='', use_default_series=True)
+
+os.mkdir('branches')
+for name, content in branches.items():
+    with open('branches/'+name, 'w') as bfile:
+        bfile.write(content)
