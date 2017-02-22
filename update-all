@@ -31,18 +31,16 @@ if [[ $# -ne 1 ]]; then
     usage
 fi
 
-[[ -f update-one ]] || { echo "update-one not found" >&2; exit 1; }
+update_one=$(readlink -f "$(dirname "$0")/update-one")
+[[ -f $update_one ]] || { echo "update-one script not found; looked at $update_one" >&2; exit 1; }
 
-update_one=$(mktemp --suffix=.sh)
-trap "rm -f $update_one" EXIT
-cp update-one $update_one
-chmod +x $update_one
+repo=$(readlink -f "$1")
 
-cd "$1"
+cd "$repo"
 
 for branch in ${branches[@]}; do
     git checkout $branch
-    $update_one "$1"
+    $update_one "$repo"
 done
 
 echo "Verify everything is kosher and then run:"
