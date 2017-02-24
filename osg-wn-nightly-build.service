@@ -1,0 +1,18 @@
+
+[Unit]
+Description=osg-wn DockerHub nightly build
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/home/centos/docker-osg-wn-scripts/osg-wn-nightly-build
+WorkingDirectory=/home/centos/docker-osg-wn
+RestartSec=24hr
+Restart=always
+User=centos
+Nice=19
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+

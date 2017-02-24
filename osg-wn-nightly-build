@@ -1,0 +1,29 @@
+#!/bin/bash
+
+branches=(
+    3.3-devel
+    3.3-devel-el6
+    3.3-devel-el7
+    3.3-testing
+    3.3-testing-el6
+    3.3-testing-el7
+    devel
+    testing
+)
+
+set -eu
+
+update_one=$(readlink -f "$(dirname "$0")/update-one")
+[[ -f $update_one ]] || { echo "update-one script not found; looked at $update_one" >&2; exit 1; }
+
+repo=$(readlink -f `pwd`)
+
+cd "$repo"
+
+for branch in ${branches[@]}; do
+    git checkout $branch
+    $update_one "$repo"
+done
+
+git push origin  ${branches[@]}
+
