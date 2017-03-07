@@ -2,9 +2,20 @@
 
 These are scripts to maintain the opensciencegrid/docker-osg-wn GitHub repo.
 
+The primary script is `update-all`. After a release, once the osg repo on
+repo.grid.iu.edu has been updated with the new release, check out this repo and
+the opensciencegrid/docker-osg-wn repo, point `update-all` at your clone of
+docker-osg-wn, and follow the instructions it prints to push the updates back
+to GitHub, where they will be automatically used to build new Docker images..
+
+
+
 ## update-all
 Update all branches that Docker images are automatically built from.
 You must have push access to the opensciencegrid/docker-osg-wn repo to use this.
+For safety reasons, this does not automatically push the branches to GitHub,
+but it gives you the instructions on how to do so after verifying that the
+updates look correct.
 
 Usage:
 ```
