@@ -37,6 +37,12 @@ git checkout BRANCH
 ../docker-osg-wn-scripts/update-one "."
 ```
 
+## osg-wn-nightly-build / osg-wn-nightly-build.service
+Update the branches that nightly Docker images are automatically built from.
+This is run periodically via the systemd service `osg-wn-nightly-build.service`.
+Ensure the user has a deploy key with push access to the
+opensciencegrid/docker-osg-wn repository.
+
 ## genbranches
 Create `Dockerfile.in` files for each branch we want to create. Files will be created as `./branches/$BRANCHNAME`.
 Run once.
