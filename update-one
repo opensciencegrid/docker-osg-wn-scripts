@@ -16,7 +16,7 @@ fi
 
 cd "$1"
 
-DATE=$(date +%Y%m%d)
+DATE=$(date +%Y%m%d-%H%M)
 BRANCH=$(git branch | fgrep '*' | cut -c 3-)
 WD_ROOT=$(git rev-parse --show-toplevel)
 
