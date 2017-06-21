@@ -2,7 +2,7 @@
 from __future__ import print_function
 import os
 
-DEFAULT_SERIES = '3.3'
+DEFAULT_SERIES = '3.4'
 DEFAULT_DVER = 'el7'
 
 
@@ -18,7 +18,7 @@ DVERS = { 'el6': { 'descr':                'EL 6'
         }
 
 
-SERIESES = ['3.3']
+SERIESES = ['3.3', '3.4']
 
 
 REPOS = { 'devel':   { 'descr':  ' + development repos'
