@@ -49,7 +49,6 @@ RUN yum -y install https://repo.grid.iu.edu/osg/%(series)s/osg-%(series)s-%(dver
                    yum-plugin-priorities && \
     yum -y install %(repo_arg)s \
                    osg-wn-client \
-                   osg-wn-client-glexec \
                    redhat-lsb-core
 
 # Install Singularity
