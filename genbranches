@@ -59,8 +59,9 @@ RUN yum -y install --enablerepo=osg-upcoming-development singularity && \
 DOCKERFILE_IN_GLEXEC = r"""
 
 #Install GLEXEC
-yum -y install %(repo_arg)s \
-               osg-wn-client-glexec
+RUN yum -y install %(repo_arg)s \
+               osg-wn-client-glexec && \
+    yum clean all
 """
 
 branches = {}
