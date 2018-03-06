@@ -49,11 +49,18 @@ RUN yum -y install https://repo.grid.iu.edu/osg/%(series)s/osg-%(series)s-%(dver
                    yum-plugin-priorities && \
     yum -y install %(repo_arg)s \
                    osg-wn-client \
-                   osg-wn-client-glexec \
                    redhat-lsb-core
 
 # Install Singularity
 RUN yum -y install --enablerepo=osg-upcoming-development singularity && \
+    yum clean all
+"""
+
+DOCKERFILE_IN_GLEXEC = r"""
+
+#Install GLEXEC
+RUN yum -y install %(repo_arg)s \
+               osg-wn-client-glexec && \
     yum clean all
 """
 
@@ -77,7 +84,8 @@ def do_dver(dver, dver_suffix=None, use_default_series=False):
             for series in SERIESES:
                 name = series + repo_suffix + dver_suffix
                 content = DOCKERFILE_IN_TEMPLATE % locals()
-
+                if series == "3.3":
+                    content = content + (DOCKERFILE_IN_GLEXEC % locals())
                 branches[name] = content
         else:
             series = DEFAULT_SERIES
@@ -85,7 +93,11 @@ def do_dver(dver, dver_suffix=None, use_default_series=False):
                 name = 'latest'
             else:
                 name = repo_key
+
             content = DOCKERFILE_IN_TEMPLATE % locals()
+            
+            if series == "3.3":
+                content = content + (DOCKERFILE_IN_GLEXEC % locals())
 
             branches[name] = content
 
