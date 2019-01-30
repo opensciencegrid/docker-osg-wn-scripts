@@ -1,12 +1,6 @@
 #!/bin/bash
 
 branches=(
-    3.3-devel
-    3.3-devel-el6
-    3.3-devel-el7
-    3.3-testing
-    3.3-testing-el6
-    3.3-testing-el7
     3.4-devel
     3.4-devel-el6
     3.4-devel-el7
