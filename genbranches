@@ -49,11 +49,10 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/%(series)s/osg-%(series)
                    yum-plugin-priorities && \
     yum -y install %(repo_arg)s \
                    osg-wn-client \
-                   redhat-lsb-core
+                   redhat-lsb-core \
+                   singularity
 
-# Install Singularity
-RUN yum -y install --enablerepo=osg-upcoming-development singularity && \
-    yum clean all
+RUN yum clean all
 """
 
 branches = {}
