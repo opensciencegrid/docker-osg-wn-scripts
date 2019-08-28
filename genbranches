@@ -18,7 +18,11 @@ DVERS = { 'el6': { 'descr':                'EL 6'
         }
 
 
-SERIESES = ['3.4']
+SERIESES = ['3.4', '3.5']
+
+
+DVERS_IN_SERIES = {'3.4': ['el6', 'el7'],
+                   '3.5': ['el7']}
 
 
 REPOS = { 'devel':   { 'descr':  ' + development repos'
@@ -73,11 +77,15 @@ def do_dver(dver, dver_suffix=None, use_default_series=False):
 
         if not use_default_series:
             for series in SERIESES:
+                if dver not in DVERS_IN_SERIES[series]:
+                    continue
                 name = series + repo_suffix + dver_suffix
                 content = DOCKERFILE_IN_TEMPLATE % locals()
                 branches[name] = content
         else:
             series = DEFAULT_SERIES
+            if dver not in DVERS_IN_SERIES[series]:
+                continue
             if repo_key == 'prod':
                 name = 'latest'
             else:
