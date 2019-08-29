@@ -2,7 +2,7 @@
 from __future__ import print_function
 import os
 
-DEFAULT_SERIES = '3.4'
+DEFAULT_SERIES = '3.5'
 DEFAULT_DVER = 'el7'
 
 
