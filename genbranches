@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 from __future__ import print_function
 import os
 
@@ -11,9 +11,18 @@ DEFAULT_DVER = 'el7'
 
 DVERS = { 'el6': { 'descr':                'EL 6'
                  , 'from_container':       'centos:centos6'
+                 , 'priorities':           'yum-plugin-priorities'
+                 , 'repo_args':            ''
                  }
         , 'el7': { 'descr':                'EL 7'
                  , 'from_container':       'centos:centos7'
+                 , 'priorities':           'yum-plugin-priorities'
+                 , 'repo_args':            ''
+                 }
+        , 'el8': { 'descr':                'EL 8'
+                 , 'from_container':       'centos:centos8'
+                 , 'priorities':           ''
+                 , 'repo_args':            '--enablerepo=PowerTools'
                  }
         }
 
@@ -22,7 +31,7 @@ SERIESES = ['3.4', '3.5']
 
 
 DVERS_IN_SERIES = {'3.4': ['el6', 'el7'],
-                   '3.5': ['el7']}
+                   '3.5': ['el7', 'el8']}
 
 
 REPOS = { 'devel':   { 'descr':  ' + development repos'
@@ -50,8 +59,8 @@ LABEL build-date="@BUILDDATE@"
 
 RUN yum -y install https://repo.opensciencegrid.org/osg/%(series)s/osg-%(series)s-%(dver)s-release-latest.rpm \
                    epel-release \
-                   yum-plugin-priorities && \
-    yum -y install %(repo_arg)s \
+                   %(dver_priorities)s && \
+    yum -y install %(repo_arg)s %(dver_repo_args)s \
                    osg-wn-client \
                    redhat-lsb-core \
                    singularity && \
@@ -69,6 +78,8 @@ def do_dver(dver, dver_suffix=None, use_default_series=False):
 
     from_container = DVERS[dver]['from_container']
     dver_descr = DVERS[dver]['descr']
+    dver_priorities = DVERS[dver]['priorities']
+    dver_repo_args = DVERS[dver]['repo_args']
 
     for repo_key, repo in REPOS.items():
         repo_descr = repo['descr']
