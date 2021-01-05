@@ -9,12 +9,7 @@ DEFAULT_DVER = 'el7'
 
 
 
-DVERS = { 'el6': { 'descr':                'EL 6'
-                 , 'from_container':       'centos:centos6'
-                 , 'priorities':           'yum-plugin-priorities'
-                 , 'repo_args':            ''
-                 }
-        , 'el7': { 'descr':                'EL 7'
+DVERS = { 'el7': { 'descr':                'EL 7'
                  , 'from_container':       'centos:centos7'
                  , 'priorities':           'yum-plugin-priorities'
                  , 'repo_args':            ''
@@ -27,11 +22,10 @@ DVERS = { 'el6': { 'descr':                'EL 6'
         }
 
 
-SERIESES = ['3.4', '3.5']
+SERIESES = ['3.5']
 
 
-DVERS_IN_SERIES = {'3.4': ['el6', 'el7'],
-                   '3.5': ['el7', 'el8']}
+DVERS_IN_SERIES = {'3.5': ['el7', 'el8']}
 
 
 REPOS = { 'devel':   { 'descr':  ' + development repos'
