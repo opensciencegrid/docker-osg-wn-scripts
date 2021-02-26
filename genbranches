@@ -17,7 +17,7 @@ DVERS = { 'el7': { 'descr':                'EL 7'
         , 'el8': { 'descr':                'EL 8'
                  , 'from_container':       'centos:centos8'
                  , 'priorities':           ''
-                 , 'repo_args':            '--enablerepo=PowerTools'
+                 , 'repo_args':            '--enablerepo=powertools'
                  }
         }
 
