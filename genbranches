@@ -17,15 +17,15 @@ DVERS = { 'el7': { 'descr':                'EL 7'
         , 'el8': { 'descr':                'EL 8'
                  , 'from_container':       'centos:centos8'
                  , 'priorities':           ''
-                 , 'repo_args':            '--enablerepo=PowerTools'
+                 , 'repo_args':            '--enablerepo=powertools'
                  }
         }
 
 
-SERIESES = ['3.5']
+SERIESES = ['3.5', '3.6']
 
 
-DVERS_IN_SERIES = {'3.5': ['el7', 'el8']}
+DVERS_IN_SERIES = {'3.5': ['el7', 'el8'], '3.6': ['el7', 'el8']}
 
 
 REPOS = { 'devel':   { 'descr':  ' + development repos'
