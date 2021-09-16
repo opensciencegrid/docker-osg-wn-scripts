@@ -34,3 +34,6 @@ sed -e '1i\
 
 git add Dockerfile
 git commit -m "New build of $BRANCH at $DATE"
+
+docker build -t opensciencegrid/osg-wn:$BRANCH .
+docker push opensciencegrid/osg-wn:$BRANCH
